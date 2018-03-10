@@ -160,17 +160,3 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 let http = app.listen(5000);
-
-// Maybe for laterrrrr
-const io = socketio.listen(http);
-
-io.on('connection', socket => {
-    socket.emit('hi', 'test');
-    socket.on('startup', () => {
-        console.log("a Game started!");
-    });
-});
-
-setInterval(() => {
-    io.emit('annonuce', 'Some fancy announcement !!!!');
-}, 30000);
