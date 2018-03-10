@@ -7,12 +7,12 @@
 ```
 
 Requirements:
-	- MongoDB (https://www.mongodb.com/download-center#community)
-	- nodejs (https://nodejs.org/en/download/) LTS is fine
+- MongoDB (https://www.mongodb.com/download-center#community)
+- nodejs (https://nodejs.org/en/download/) LTS is fine
 	
 Steps:
-	- run "npm i" in the backend folder
-	- create the structure "C:\data\db", where data and db are folders
+- run "npm i" in the backend folder
+- create the structure "C:\data\db", where data and db are folders
 
 ```
    _____ __             __ 
@@ -23,9 +23,9 @@ Steps:
 ```
 
 Steps:
-	- run "mongod" in the mongodb bin folder or add it to path
-	- run "node main" in the backend folder
-	- change "BackendUrl" in the LoginHandler component to "http://localhost:5000"
+- run "mongod" in the mongodb bin folder or add it to path
+- run "node main" in the backend folder
+- change "BackendUrl" in the LoginHandler component to "http://localhost:5000"
 
 ```
     ____                   __
