@@ -4,5 +4,4 @@ ProjectSettings/
 UnityPackageManager/
 *.csproj
 *.sln
-*.meta
 *.zip
