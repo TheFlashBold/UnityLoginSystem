@@ -3,71 +3,82 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-#region Definitions
-[System.Serializable]
-public class SaveResponse
+namespace TheFlashBold.LoginSystem
 {
-    public bool success;
-    public string error;
-}
 
-[System.Serializable]
-public struct UserData
-{
-    public int Logins;
-    public string ProfilePicture;
-}
-#endregion
-
-public class User {
-    public string username;
-    public string id;
-    private string session;
-    public UserData UserData;
-
-    public User(string username, LoginResponse response)
+    #region Definitions
+    [System.Serializable]
+    public class SaveResponse
     {
-        this.username = username;
-        id = response.id;
-        session = response.session;
-        UserData = response.data;
+        public bool success;
+        public string error;
     }
 
-    #region Save Data
-
-    public void Save()
+    /// <summary>
+    /// Defines UserData, which gets synced.
+    /// </summary>
+    [System.Serializable]
+    public struct UserData
     {
-        LoginHandler.RunCoroutine(SaveData());
+        public int Logins;
+        public string ProfilePicture;
     }
+    #endregion
 
-    IEnumerator SaveData()
+    /// <summary>
+    /// LoginSystem User
+    /// </summary>
+    public class User
     {
-        Debug.Log("saving user " + username);
-        WWWForm form = new WWWForm();
-        form.AddField("id", id);
-        form.AddField("session", session);
-        form.AddField("data", JsonUtility.ToJson(UserData));
+        public string username;
+        public string id;
+        private string session;
+        public UserData UserData;
 
-        using (UnityWebRequest www = UnityWebRequest.Post(LoginHandler.instance.BackendUrl + "/save", form))
+        public User(string username, LoginResponse response)
         {
-            yield return www.SendWebRequest();
+            this.username = username;
+            id = response.id;
+            session = response.session;
+            UserData = response.data;
+        }
+        
+        #region Save Data
 
-            if (www.isNetworkError || www.isHttpError)
+        public void Save()
+        {
+            LoginHandler.RunCoroutine(SaveData());
+        }
+
+        IEnumerator SaveData()
+        {
+            Debug.Log("saving user " + username);
+            WWWForm form = new WWWForm();
+            form.AddField("id", id);
+            form.AddField("session", session);
+            form.AddField("data", JsonUtility.ToJson(UserData));
+
+            using (UnityWebRequest www = UnityWebRequest.Post(LoginHandler.instance.BackendUrl + "/save", form))
             {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                try
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
                 {
-                    RegisterResponse response = JsonUtility.FromJson<RegisterResponse>(www.downloadHandler.text);
+                    Debug.Log(www.error);
                 }
-                catch (System.Exception e)
+                else
                 {
-                    Debug.Log(e);
+                    try
+                    {
+                        RegisterResponse response = JsonUtility.FromJson<RegisterResponse>(www.downloadHandler.text);
+                    }
+                    catch (System.Exception e)
+                    {
+                        Debug.Log(e);
+                    }
                 }
             }
         }
+        #endregion
     }
-    #endregion
 }
