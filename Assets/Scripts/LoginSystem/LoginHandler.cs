@@ -317,14 +317,14 @@ namespace TheFlashBold.LoginSystem
 
         #region Utils
         /// <summary>
-        /// Hash password with SHA512
+        /// Hash password with SHA384
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
         public string getHash(string password)
         {
             System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
-            var alg = SHA512.Create();
+            var alg = SHA384.Create();
             alg.ComputeHash(ue.GetBytes(password));
             return System.Convert.ToBase64String(alg.Hash);
         }
