@@ -5,3 +5,14 @@ UnityPackageManager/
 *.csproj
 *.sln
 *.zip
+/backend/node_modules
+/Temp
+/ZeroNode_200x258.jpg
+/ZeroNode.jpg
+/LogInSystemV1.2.unitypackage
+/icon_516x389.jpg
+/icon_200x124.jpg
+/icon.jpg
+/backend/package-lock.json.meta
+/backend/package.json.meta
+/backend/main.js.meta

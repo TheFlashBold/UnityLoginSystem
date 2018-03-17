@@ -1,6 +1,5 @@
 const Koa = require('koa');
 const Router = require('koa-router');
-const md5 = require('md5');
 const Promise = require('bluebird');
 const uuidv1 = require('uuid/v1');
 const socketio = require('socket.io');
@@ -12,6 +11,10 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/unitybackend');
 
 const UserModel = mongoose.model('user', {
+    displayname: {
+        type: String,
+        required: true
+    },
     username: {
         type: String,
         required: true
@@ -83,8 +86,8 @@ router.get('/', (ctx, next) => {
 
 router.post('/register', (ctx, next) => {
     let auth = ctx.request.body;
-    if (auth.username && auth.password === auth.passwordrepeat) {
-        return UserModel.findOne({username: auth.username, password: auth.password}).exec().then(existingUser => {
+    if ((auth.steamid || auth.username) && auth.password === auth.passwordrepeat) {
+        return UserModel.findOne({username: auth.username}).exec().then(existingUser => {
             if (existingUser) {
                 return ctx.body = {
                     success: false,
@@ -93,7 +96,8 @@ router.post('/register', (ctx, next) => {
             }
             console.log("register started");
             let user = new UserModel({
-                username: auth.username,
+                username: auth.steamid || auth.username,
+                displayname: auth.username,
                 password: auth.password,
                 project: auth.project || ""
             });
@@ -127,14 +131,22 @@ router.post('/login', (ctx, next) => {
     if(!auth.version || auth.version !== version){
         return ctx.body = {
             success: false,
-            error: "Your version is outdated!"
+            error: "Your version is outdated! Server is running " + version
         };
     }
 
     let query = {
-        username: auth.username,
         password: auth.password
     };
+
+
+    if(auth.username){
+        query.username = auth.username;
+    }
+
+    if(auth.steamid){
+        query.username = auth.steamid;
+    }
 
     console.log(auth);
 
