@@ -5,7 +5,7 @@ const uuidv1 = require('uuid/v1');
 const socketio = require('socket.io');
 const crypto = require('crypto');
 
-const version = "V1.3";
+const version = "V1.4";
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/unitybackend');

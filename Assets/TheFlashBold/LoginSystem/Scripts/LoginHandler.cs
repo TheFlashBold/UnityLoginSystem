@@ -80,7 +80,7 @@ namespace TheFlashBold.LoginSystem
         public string BackendUrl = "https://login.0zn.ch";
         public string Project = "default";
 
-        private string Version = "V1.3";
+        private string Version = "V1.4";
 
         public bool UseSteam = false;
         private bool SteamInitialized = false;
@@ -434,7 +434,7 @@ namespace TheFlashBold.LoginSystem
         public string getHash(string password)
         {
             System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
-            var alg = SHA512.Create();
+            var alg = SHA384.Create();
             alg.ComputeHash(ue.GetBytes(password));
             return System.Convert.ToBase64String(alg.Hash);
         }
